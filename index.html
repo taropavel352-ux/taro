@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0a0a1a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Таро Мистик — Расклады</title>
+  <title>Таро Мистик</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -23,10 +20,9 @@
       --border: #28285c;
       --accent: #9b6dff;
       --accent2: #7c3aed;
-      --accent-glow: #9b6dff33;
+      --accent-glow: rgba(155, 109, 255, 0.2);
       --gold: #f0c050;
-      --gold-dark: #c89020;
-      --gold-glow: #f0c05022;
+      --gold-glow: rgba(240, 192, 80, 0.13);
       --magenta: #e879f9;
       --text: #e8e6f0;
       --text2: #a09cc0;
@@ -45,54 +41,6 @@
 
     #root { max-width: 420px; margin: 0 auto; min-height: 100vh; position: relative; }
 
-    /* ===== THEME: PURPLE ===== */
-    body.theme-purple {
-      --bg-deep: #08081a;
-      --bg: #0e0e28;
-      --bg-card: #141442;
-      --border: #28285c;
-      --accent: #9b6dff;
-      --accent2: #7c3aed;
-      --accent-glow: #9b6dff33;
-    }
-    body.theme-purple .bg-stars {
-      background-image:
-        radial-gradient(ellipse at 20% 0%, #6c44ff12 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, #e879f90d 0%, transparent 50%);
-    }
-
-    /* ===== THEME: BLACK ===== */
-    body.theme-black {
-      --bg-deep: #050505;
-      --bg: #0a0a0a;
-      --bg-card: #151515;
-      --border: #2a2a2a;
-      --accent: #e0e0e0;
-      --accent2: #b0b0b0;
-      --accent-glow: #ffffff18;
-    }
-    body.theme-black .bg-stars {
-      background-image:
-        radial-gradient(ellipse at 30% 20%, #ffffff06 0%, transparent 40%),
-        radial-gradient(ellipse at 70% 80%, #ffffff04 0%, transparent 40%);
-    }
-
-    /* ===== THEME: GOLD ===== */
-    body.theme-gold {
-      --bg-deep: #0a0800;
-      --bg: #141000;
-      --bg-card: #1e1800;
-      --border: #3a2a00;
-      --accent: #f0c050;
-      --accent2: #d4a030;
-      --accent-glow: #f0c05033;
-    }
-    body.theme-gold .bg-stars {
-      background-image:
-        radial-gradient(ellipse at 25% 10%, #f0c0500d 0%, transparent 50%),
-        radial-gradient(ellipse at 75% 90%, #d4a0300a 0%, transparent 50%);
-    }
-
     .bg-stars {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: 0;
@@ -101,226 +49,123 @@
         radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3), transparent),
         radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5), transparent),
         radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.4), transparent),
-        radial-gradient(1.5px 1.5px at 15% 85%, rgba(155,109,255,0.5), transparent),
-        radial-gradient(1.5px 1.5px at 85% 15%, rgba(232,121,249,0.4), transparent),
-        radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.3), transparent);
+        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.4), transparent);
     }
 
     .app-container { position: relative; z-index: 1; padding-bottom: 20px; }
 
     /* Header */
-    .taro-header {
-      padding: 20px 16px 12px; text-align: center;
-      background: linear-gradient(180deg, var(--bg-deep) 0%, transparent 100%);
-    }
-    .taro-header .moon {
-      font-size: 2.5rem; margin-bottom: 8px;
-      filter: drop-shadow(0 0 20px var(--accent-glow));
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-    .taro-header h1 {
-      font-family: var(--font-title); font-size: 1.8rem; font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 30px var(--accent-glow);
-      letter-spacing: 0.02em;
-    }
-    .taro-header p { color: var(--text2); font-size: 0.8rem; margin-top: 4px; font-weight: 300; }
+    .header { padding: 16px; text-align: center; }
+    .header .logo { font-size: 2rem; margin-bottom: 8px; }
+    .header h1 { font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .header p { color: var(--text2); font-size: 0.75rem; margin-top: 4px; }
 
-    /* Theme Switcher */
-    .theme-switcher {
-      display: flex; gap: 8px; justify-content: center; padding: 8px 16px 4px;
-    }
-    .theme-dot {
-      width: 28px; height: 28px; border-radius: 50%;
-      border: 2px solid transparent; cursor: pointer;
-      transition: all 0.3s; position: relative;
-    }
-    .theme-dot.active { border-color: var(--accent); transform: scale(1.15); }
-    .theme-dot.active::after {
-      content: '✓'; position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 700; color: #fff;
-      text-shadow: 0 0 4px rgba(0,0,0,0.8);
-    }
-    .theme-dot.purple { background: linear-gradient(135deg, #9b6dff, #7c3aed); }
-    .theme-dot.black { background: linear-gradient(135deg, #333, #111); }
-    .theme-dot.gold { background: linear-gradient(135deg, #f0c050, #c89020); }
+    /* Theme */
+    .theme-switcher { display: flex; gap: 8px; justify-content: center; padding: 8px 16px; }
+    .theme-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+    .theme-btn.active { border-color: var(--accent); }
+    .theme-btn.dark { background: linear-gradient(135deg, #9b6dff, #7c3aed); }
+    .theme-btn.light { background: linear-gradient(135deg, #f5f3f0, #e0dcd6); }
 
     /* Tabs */
-    .tabs { display: flex; gap: 4px; padding: 10px 16px 0; }
-    .tab {
-      flex: 1; padding: 10px 8px; text-align: center; border: none;
-      background: transparent; color: var(--text3); font-family: var(--font-body);
-      font-size: 0.8rem; font-weight: 500; cursor: pointer;
-      border-bottom: 2px solid transparent; transition: all 0.3s;
-    }
+    .tabs { display: flex; gap: 4px; padding: 8px 16px 0; }
+    .tab { flex: 1; padding: 10px 8px; text-align: center; border: none; background: transparent; color: var(--text3); font-size: 0.75rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s; }
     .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .tab .tab-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
-    .tab .tab-label { font-size: 0.7rem; }
+    .tab .tab-icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
 
     /* Spread area */
-    .spread-area { padding: 20px 16px; }
-
-    .spread-title {
-      text-align: center; margin-bottom: 4px;
-    }
-    .spread-title h2 {
-      font-family: var(--font-title); font-size: 1.3rem; font-weight: 700;
-      color: var(--text);
-    }
-    .spread-title p { color: var(--text3); font-size: 0.75rem; }
+    .spread-area { padding: 16px; }
+    .spread-title { text-align: center; margin-bottom: 8px; }
+    .spread-title h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .spread-title p { color: var(--text3); font-size: 0.7rem; }
 
     /* Timer */
-    .timer-bar {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 10px 16px; margin-bottom: 16px;
-    }
-    .timer-bar .timer-text {
-      font-size: 0.75rem; color: var(--text2); font-variant-numeric: tabular-nums;
-    }
-    .timer-bar .timer-highlight { color: var(--accent); font-weight: 600; }
+    .timer-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px; margin-bottom: 12px; background: var(--bg-card); border-radius: 8px; }
+    .timer-text { font-size: 0.7rem; color: var(--text2); }
+    .timer-highlight { color: var(--accent); font-weight: 600; }
 
     /* Cards Grid */
-    .cards-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-      margin-bottom: 20px;
-    }
-    .cards-grid.single { grid-template-columns: 1fr; max-width: 180px; margin: 0 auto 20px; }
+    .cards-grid { display: grid; gap: 12px; margin-bottom: 16px; }
+    .cards-grid.single { grid-template-columns: 1fr; max-width: 160px; margin: 0 auto 16px; }
+    .cards-grid.week { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, auto); }
+    .cards-grid.week .card-appear:nth-child(1) { grid-column: 2; }
+    .cards-grid.week .card-appear:nth-child(2) { grid-column: 3; }
+    .cards-grid.week .card-appear:nth-child(3) { grid-column: 4; }
+    .cards-grid.week .card-appear:nth-child(4) { grid-column: 3; }
+    .cards-grid.week .card-appear:nth-child(5) { grid-column: 2; }
+    .cards-grid.week .card-appear:nth-child(6) { grid-column: 1; }
+    .cards-grid.week .card-appear:nth-child(7) { grid-column: 2; }
 
     /* Position Label */
-    .position-label {
-      text-align: center; margin-bottom: 6px;
-      font-size: 0.6rem; color: var(--accent); font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.08em;
-    }
+    .position-label { text-align: center; margin-bottom: 4px; font-size: 0.6rem; color: var(--accent); font-weight: 600; text-transform: uppercase; }
 
-    /* ===== SVG TAROT CARD ===== */
-    .tarot-card {
-      perspective: 800px; cursor: pointer; user-select: none;
-    }
-    .tarot-card-inner {
-      position: relative; width: 100%; padding-top: 155%;
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
-    }
+    /* Tarot Card */
+    .tarot-card { perspective: 800px; cursor: pointer; user-select: none; width: 100%; }
+    .tarot-card-inner { position: relative; width: 100%; padding-top: 140%; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
     .tarot-card.flipped .tarot-card-inner { transform: rotateY(180deg); }
-
-    .card-face {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden;
-      border-radius: 10px; overflow: hidden;
-    }
-    .card-front {
-      transform: rotateY(180deg);
-    }
-    .card-front svg, .card-back svg {
-      width: 100%; height: 100%; display: block;
-    }
+    .card-face { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; overflow: hidden; }
+    .card-back { background: linear-gradient(145deg, #1a1a4a, #0d0d2b); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+    .card-back::before { content: ''; position: absolute; inset: 6px; border: 1px solid var(--accent); border-radius: 6px; opacity: 0.3; }
+    .back-symbol { font-size: 1.5rem; opacity: 0.6; }
+    .card-front { transform: rotateY(180deg); background: var(--bg-card); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; }
+    .card-front .reversed-badge { position: absolute; top: 4px; right: 4px; background: rgba(232,121,249,0.2); color: var(--magenta); font-size: 0.5rem; padding: 2px 4px; border-radius: 4px; font-weight: 600; }
+    .card-icon { font-size: 1.8rem; margin-bottom: 4px; }
+    .card-name { font-family: var(--font-title); font-size: 0.7rem; font-weight: 600; color: var(--text); text-align: center; }
 
     /* Buttons */
-    .flip-all-btn {
-      display: block; width: 100%; max-width: 260px; margin: 0 auto 14px;
-      padding: 12px 24px; border: none; border-radius: 30px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-      color: #fff; font-family: var(--font-body); font-size: 0.85rem;
-      font-weight: 600; cursor: pointer; transition: all 0.3s;
-      box-shadow: 0 4px 20px var(--accent-glow);
-    }
-    .flip-all-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 30px var(--accent-glow); }
-    .flip-all-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    .refresh-btn {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      width: 100%; max-width: 260px; margin: 0 auto 12px;
-      padding: 10px 20px; border: 1px solid var(--border); border-radius: 30px;
-      background: transparent; color: var(--text2); font-family: var(--font-body);
-      font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
-    }
-    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    .share-btn {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      width: 100%; max-width: 260px; margin: 0 auto 12px;
-      padding: 10px 20px; border-radius: 30px;
-      border: 1px solid var(--accent); background: transparent;
-      color: var(--accent); font-family: var(--font-body); font-size: 0.8rem;
-      cursor: pointer; transition: all 0.3s;
-    }
-    .share-btn:hover { background: var(--accent-glow); }
+    .btn-flip-all { display: block; width: 100%; max-width: 240px; margin: 0 auto 12px; padding: 12px 20px; border: none; border-radius: 20px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 600; cursor: pointer; }
+    .btn-refresh { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; max-width: 240px; margin: 0 auto; padding: 10px 20px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text2); font-size: 0.8rem; cursor: pointer; }
 
     /* Reading Section */
-    .reading-section { padding: 16px; }
-    .reading-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px; margin-bottom: 10px;
-    }
-    .reading-card h3 {
-      font-family: var(--font-title); font-size: 0.95rem; font-weight: 600;
-      color: var(--accent); margin-bottom: 8px;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .reading-card .card-meaning { display: flex; gap: 10px; }
-    .reading-card .card-meaning .info h4 {
-      font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 3px;
-    }
-    .reading-card .card-meaning .info p {
-      font-size: 0.73rem; color: var(--text2); line-height: 1.6;
-    }
-    .reversed-badge {
-      display: inline-block; padding: 1px 6px; border-radius: 4px;
-      background: rgba(232,121,249,0.15); color: var(--magenta);
-      font-size: 0.55rem; font-weight: 700; margin-left: 6px;
-      text-transform: uppercase;
-    }
+    .reading-section { padding: 12px; }
+    .reading-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .reading-card h3 { font-family: var(--font-title); font-size: 0.9rem; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .reading-card .card-meaning { display: flex; gap: 8px; }
+    .reading-card .card-meaning .emoji { font-size: 1.5rem; flex-shrink: 0; }
+    .reading-card .card-meaning .info h4 { font-size: 0.75rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .reading-card .card-meaning .info p { font-size: 0.7rem; color: var(--text2); line-height: 1.5; }
 
-    .summary-box {
-      background: linear-gradient(135deg, var(--bg-card) 0%, var(--accent-glow) 100%);
-      border: 1px solid var(--accent); border-radius: 12px;
-      padding: 16px; margin-bottom: 10px;
-    }
-    .summary-box h3 {
-      font-family: var(--font-title); font-size: 1rem; font-weight: 700;
-      color: var(--accent); margin-bottom: 8px;
-    }
-    .summary-box p { font-size: 0.78rem; color: var(--text); line-height: 1.7; }
+    .summary-box { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .summary-box h3 { font-family: var(--font-title); font-size: 0.95rem; color: var(--accent); margin-bottom: 6px; }
+    .summary-box p { font-size: 0.75rem; color: var(--text); line-height: 1.6; }
 
-    .advice-box {
-      background: linear-gradient(135deg, var(--bg-card) 0%, var(--gold-glow) 100%);
-      border: 1px solid rgba(240,192,80,0.3); border-radius: 12px;
-      padding: 16px; margin-bottom: 10px;
-    }
-    .advice-box h3 {
-      font-family: var(--font-title); font-size: 1rem; font-weight: 700;
-      color: var(--gold); margin-bottom: 8px;
-    }
-    .advice-box p { font-size: 0.78rem; color: var(--text); line-height: 1.7; }
+    .advice-box { background: var(--bg-card); border: 1px solid var(--gold); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .advice-box h3 { font-family: var(--font-title); font-size: 0.95rem; color: var(--gold); margin-bottom: 6px; }
+    .advice-box p { font-size: 0.75rem; color: var(--text); line-height: 1.6; }
 
-    .info-footer {
-      text-align: center; padding: 20px 16px; color: var(--text3);
-      font-size: 0.6rem; line-height: 1.6;
-    }
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+    .modal-content { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; max-width: 280px; width: 100%; padding: 20px; }
+    .modal-header { text-align: center; margin-bottom: 16px; }
+    .modal-header .icon { font-size: 2.5rem; margin-bottom: 8px; display: block; }
+    .modal-header h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .modal-header p { color: var(--text2); font-size: 0.75rem; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in { animation: fadeIn 0.5s ease forwards; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.75rem; color: var(--text2); margin-bottom: 4px; }
+    .form-group input { width: 100%; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.85rem; }
+    .form-group input:focus { outline: none; border-color: var(--accent); }
 
-    @keyframes cardAppear {
-      from { opacity: 0; transform: scale(0.85); }
-      to { opacity: 1; transform: scale(1); }
-    }
+    .gender-toggle { display: flex; gap: 8px; }
+    .gender-option { flex: 1; padding: 8px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 8px; color: var(--text2); font-size: 0.75rem; cursor: pointer; text-align: center; }
+    .gender-option.active { border-color: var(--accent); color: var(--accent); }
+
+    .btn { width: 100%; padding: 12px; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+
+    .footer { text-align: center; padding: 16px; color: var(--text3); font-size: 0.6rem; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes cardAppear { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
     .card-appear { animation: cardAppear 0.5s ease forwards; }
+    .logo { animation: float 4s ease-in-out infinite; }
   </style>
 </head>
-<body class="theme-purple">
+<body>
   <div class="bg-stars"></div>
   <div id="root"></div>
-  <script src="/taro/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
