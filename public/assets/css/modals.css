@@ -16,10 +16,10 @@
 .modal-content {
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  max-width: 360px;
-  width: 100%;
-  max-height: 90vh;
+  border-radius: 16px;
+  max-width: 300px;
+  width: 90%;
+  max-height: 85vh;
   overflow-y: auto;
   animation: slideUp 0.4s ease;
 }
@@ -36,20 +36,20 @@
 }
 
 .modal-header {
-  padding: 24px 24px 16px;
+  padding: 20px 20px 12px;
   text-align: center;
 }
 
 .modal-header .icon {
-  font-size: 3rem;
-  margin-bottom: 12px;
+  font-size: 2.5rem;
+  margin-bottom: 8px;
   display: block;
   animation: float 3s ease-in-out infinite;
 }
 
 .modal-header h2 {
   font-family: var(--font-title);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--accent);
   margin: 0 0 4px;
@@ -57,24 +57,28 @@
 
 .modal-header p {
   color: var(--text2);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   margin: 0;
 }
 
 .modal-body {
-  padding: 0 24px 24px;
+  padding: 0 20px 20px;
+}
+
+.modal-footer {
+  padding: 0 20px 20px;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .form-group label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--text2);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .form-group input[type="text"],
@@ -82,12 +86,12 @@
 .form-group input[type="tel"],
 .form-group input[type="password"] {
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 12px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-family: var(--font-body);
   transition: border-color 0.3s;
 }
@@ -108,12 +112,12 @@
 
 .gender-option {
   flex: 1;
-  padding: 12px;
+  padding: 8px 10px;
   background: var(--bg-card);
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   color: var(--text2);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
@@ -129,17 +133,13 @@
   color: var(--accent);
 }
 
-.modal-footer {
-  padding: 0 24px 24px;
-}
-
 .btn {
   width: 100%;
-  padding: 14px 24px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 30px;
+  border-radius: 20px;
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
@@ -171,65 +171,49 @@
   color: var(--accent);
 }
 
-/* Success state */
 .modal-success {
   text-align: center;
-  padding: 40px 24px;
+  padding: 30px 20px;
 }
 
 .modal-success .icon {
-  font-size: 4rem;
-  margin-bottom: 16px;
+  font-size: 3rem;
+  margin-bottom: 12px;
 }
 
 .modal-success h3 {
   font-family: var(--font-title);
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: var(--accent);
   margin: 0 0 8px;
 }
 
 .modal-success p {
   color: var(--text2);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin: 0;
 }
 
-/* Loading state */
 .btn.loading {
   opacity: 0.7;
   cursor: wait;
-}
-
-.btn.loading::after {
-  content: '';
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-left: 8px;
-  border: 2px solid #fff;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  vertical-align: middle;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Close button */
 .modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
   border: none;
   background: var(--bg-card);
   border-radius: 50%;
   color: var(--text2);
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
