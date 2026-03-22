@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Таро Мистик — Расклады</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --bg-deep: #08081a;
+      --bg: #0e0e28;
+      --bg-card: #141442;
+      --bg-card-hover: #1a1a52;
+      --border: #28285c;
+      --accent: #9b6dff;
+      --accent2: #7c3aed;
+      --accent-glow: #9b6dff33;
+      --gold: #f0c050;
+      --gold-dark: #c89020;
+      --gold-glow: #f0c05022;
+      --magenta: #e879f9;
+      --text: #e8e6f0;
+      --text2: #a09cc0;
+      --text3: #6b6890;
+      --font-title: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #root { max-width: 420px; margin: 0 auto; min-height: 100vh; position: relative; }
+
+    /* ===== THEME: PURPLE ===== */
+    body.theme-purple {
+      --bg-deep: #08081a;
+      --bg: #0e0e28;
+      --bg-card: #141442;
+      --border: #28285c;
+      --accent: #9b6dff;
+      --accent2: #7c3aed;
+      --accent-glow: #9b6dff33;
+    }
+    body.theme-purple .bg-stars {
+      background-image:
+        radial-gradient(ellipse at 20% 0%, #6c44ff12 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, #e879f90d 0%, transparent 50%);
+    }
+
+    /* ===== THEME: BLACK ===== */
+    body.theme-black {
+      --bg-deep: #050505;
+      --bg: #0a0a0a;
+      --bg-card: #151515;
+      --border: #2a2a2a;
+      --accent: #e0e0e0;
+      --accent2: #b0b0b0;
+      --accent-glow: #ffffff18;
+    }
+    body.theme-black .bg-stars {
+      background-image:
+        radial-gradient(ellipse at 30% 20%, #ffffff06 0%, transparent 40%),
+        radial-gradient(ellipse at 70% 80%, #ffffff04 0%, transparent 40%);
+    }
+
+    /* ===== THEME: GOLD ===== */
+    body.theme-gold {
+      --bg-deep: #0a0800;
+      --bg: #141000;
+      --bg-card: #1e1800;
+      --border: #3a2a00;
+      --accent: #f0c050;
+      --accent2: #d4a030;
+      --accent-glow: #f0c05033;
+    }
+    body.theme-gold .bg-stars {
+      background-image:
+        radial-gradient(ellipse at 25% 10%, #f0c0500d 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 90%, #d4a0300a 0%, transparent 50%);
+    }
+
+    .bg-stars {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1.5px 1.5px at 15% 85%, rgba(155,109,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 85% 15%, rgba(232,121,249,0.4), transparent),
+        radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.3), transparent);
+    }
+
+    .app-container { position: relative; z-index: 1; padding-bottom: 20px; }
+
+    /* Header */
+    .taro-header {
+      padding: 20px 16px 12px; text-align: center;
+      background: linear-gradient(180deg, var(--bg-deep) 0%, transparent 100%);
+    }
+    .taro-header .moon {
+      font-size: 2.5rem; margin-bottom: 8px;
+      filter: drop-shadow(0 0 20px var(--accent-glow));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .taro-header h1 {
+      font-family: var(--font-title); font-size: 1.8rem; font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow);
+      letter-spacing: 0.02em;
+    }
+    .taro-header p { color: var(--text2); font-size: 0.8rem; margin-top: 4px; font-weight: 300; }
+
+    /* Theme Switcher */
+    .theme-switcher {
+      display: flex; gap: 8px; justify-content: center; padding: 8px 16px 4px;
+    }
+    .theme-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid transparent; cursor: pointer;
+      transition: all 0.3s; position: relative;
+    }
+    .theme-dot.active { border-color: var(--accent); transform: scale(1.15); }
+    .theme-dot.active::after {
+      content: '✓'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: #fff;
+      text-shadow: 0 0 4px rgba(0,0,0,0.8);
+    }
+    .theme-dot.purple { background: linear-gradient(135deg, #9b6dff, #7c3aed); }
+    .theme-dot.black { background: linear-gradient(135deg, #333, #111); }
+    .theme-dot.gold { background: linear-gradient(135deg, #f0c050, #c89020); }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; padding: 10px 16px 0; }
+    .tab {
+      flex: 1; padding: 10px 8px; text-align: center; border: none;
+      background: transparent; color: var(--text3); font-family: var(--font-body);
+      font-size: 0.8rem; font-weight: 500; cursor: pointer;
+      border-bottom: 2px solid transparent; transition: all 0.3s;
+    }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab .tab-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+    .tab .tab-label { font-size: 0.7rem; }
+
+    /* Spread area */
+    .spread-area { padding: 20px 16px; }
+
+    .spread-title {
+      text-align: center; margin-bottom: 4px;
+    }
+    .spread-title h2 {
+      font-family: var(--font-title); font-size: 1.3rem; font-weight: 700;
+      color: var(--text);
+    }
+    .spread-title p { color: var(--text3); font-size: 0.75rem; }
+
+    /* Timer */
+    .timer-bar {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 16px; margin-bottom: 16px;
+    }
+    .timer-bar .timer-text {
+      font-size: 0.75rem; color: var(--text2); font-variant-numeric: tabular-nums;
+    }
+    .timer-bar .timer-highlight { color: var(--accent); font-weight: 600; }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+      margin-bottom: 20px;
+    }
+    .cards-grid.single { grid-template-columns: 1fr; max-width: 180px; margin: 0 auto 20px; }
+
+    /* Position Label */
+    .position-label {
+      text-align: center; margin-bottom: 6px;
+      font-size: 0.6rem; color: var(--accent); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ===== SVG TAROT CARD ===== */
+    .tarot-card {
+      perspective: 800px; cursor: pointer; user-select: none;
+    }
+    .tarot-card-inner {
+      position: relative; width: 100%; padding-top: 155%;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .tarot-card.flipped .tarot-card-inner { transform: rotateY(180deg); }
+
+    .card-face {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: 10px; overflow: hidden;
+    }
+    .card-front {
+      transform: rotateY(180deg);
+    }
+    .card-front svg, .card-back svg {
+      width: 100%; height: 100%; display: block;
+    }
+
+    /* Buttons */
+    .flip-all-btn {
+      display: block; width: 100%; max-width: 260px; margin: 0 auto 14px;
+      padding: 12px 24px; border: none; border-radius: 30px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: #fff; font-family: var(--font-body); font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .flip-all-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 30px var(--accent-glow); }
+    .flip-all-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .refresh-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; max-width: 260px; margin: 0 auto 12px;
+      padding: 10px 20px; border: 1px solid var(--border); border-radius: 30px;
+      background: transparent; color: var(--text2); font-family: var(--font-body);
+      font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
+    }
+    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .share-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; max-width: 260px; margin: 0 auto 12px;
+      padding: 10px 20px; border-radius: 30px;
+      border: 1px solid var(--accent); background: transparent;
+      color: var(--accent); font-family: var(--font-body); font-size: 0.8rem;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .share-btn:hover { background: var(--accent-glow); }
+
+    /* Reading Section */
+    .reading-section { padding: 16px; }
+    .reading-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px; margin-bottom: 10px;
+    }
+    .reading-card h3 {
+      font-family: var(--font-title); font-size: 0.95rem; font-weight: 600;
+      color: var(--accent); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .reading-card .card-meaning { display: flex; gap: 10px; }
+    .reading-card .card-meaning .info h4 {
+      font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 3px;
+    }
+    .reading-card .card-meaning .info p {
+      font-size: 0.73rem; color: var(--text2); line-height: 1.6;
+    }
+    .reversed-badge {
+      display: inline-block; padding: 1px 6px; border-radius: 4px;
+      background: rgba(232,121,249,0.15); color: var(--magenta);
+      font-size: 0.55rem; font-weight: 700; margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    .summary-box {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--accent-glow) 100%);
+      border: 1px solid var(--accent); border-radius: 12px;
+      padding: 16px; margin-bottom: 10px;
+    }
+    .summary-box h3 {
+      font-family: var(--font-title); font-size: 1rem; font-weight: 700;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .summary-box p { font-size: 0.78rem; color: var(--text); line-height: 1.7; }
+
+    .advice-box {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--gold-glow) 100%);
+      border: 1px solid rgba(240,192,80,0.3); border-radius: 12px;
+      padding: 16px; margin-bottom: 10px;
+    }
+    .advice-box h3 {
+      font-family: var(--font-title); font-size: 1rem; font-weight: 700;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .advice-box p { font-size: 0.78rem; color: var(--text); line-height: 1.7; }
+
+    .info-footer {
+      text-align: center; padding: 20px 16px; color: var(--text3);
+      font-size: 0.6rem; line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.5s ease forwards; }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .card-appear { animation: cardAppear 0.5s ease forwards; }
+  </style>
+</head>
+<body class="theme-purple">
+  <div class="bg-stars"></div>
+  <div id="root"></div>
+  <script src="/taro/app.js"></script>
+</body>
+</html>

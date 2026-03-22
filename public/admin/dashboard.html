@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель управления — Таро Мистик</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text2: #64748b;
+      --accent: #7c3aed;
+      --accent-light: #ede9fe;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --gold: #f59e0b;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    
+    /* Layout */
+    .admin-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-header .logo {
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+    }
+    
+    .sidebar-header h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    .sidebar-header p {
+      font-size: 0.75rem;
+      color: var(--text2);
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .nav-item:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+    
+    .nav-item.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-right: 3px solid var(--accent);
+    }
+    
+    .nav-item .icon {
+      font-size: 1.2rem;
+    }
+    
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .logout-btn {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text2);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .logout-btn:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 240px;
+      padding: 24px;
+    }
+    
+    .page-header {
+      margin-bottom: 24px;
+    }
+    
+    .page-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    
+    .page-header p {
+      color: var(--text2);
+      font-size: 0.9rem;
+    }
+    
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    
+    .stat-card .change {
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+    
+    .stat-card .change.positive { color: var(--success); }
+    .stat-card .change.negative { color: var(--danger); }
+    
+    /* Card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .card-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    th {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text2);
+      text-transform: uppercase;
+    }
+    
+    td {
+      font-size: 0.9rem;
+    }
+    
+    tbody tr:hover {
+      background: var(--bg);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-info { background: var(--accent-light); color: var(--accent); }
+    
+    /* Chart placeholder */
+    .chart-container {
+      height: 200px;
+      background: var(--bg);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 20px;
+    }
+    
+    .chart-bar {
+      width: 40px;
+      background: var(--accent);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.5s ease;
+    }
+    
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text2);
+    }
+    
+    /* Buttons */
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #6d28d9;
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+    
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+    
+    .btn-warning:hover {
+      background: #d97706;
+    }
+    
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+    }
+    
+    .btn-sm:hover {
+      background: var(--border);
+    }
+    
+    /* Hidden */
+    .hidden { display: none; }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        z-index: 100;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🌙</div>
+        <h1>Таро Мистик</h1>
+        <p>Админ-панель</p>
+      </div>
+      
+      <nav>
+        <a class="nav-item active" data-page="dashboard">
+          <span class="icon">📊</span> Панель
+        </a>
+        <a class="nav-item" data-page="users">
+          <span class="icon">👥</span> Пользователи
+        </a>
+        <a class="nav-item" data-page="analytics">
+          <span class="icon">📈</span> Аналитика
+        </a>
+        <a class="nav-item" data-page="broadcast">
+          <span class="icon">📢</span> Рассылка
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+      </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard Page -->
+      <div id="page-dashboard" class="page">
+        <div class="page-header">
+          <h2>Панель управления</h2>
+          <p>Обзор активности и статистики</p>
+        </div>
+        
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="label">Пользователей</div>
+            <div class="value" id="stat-users">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Сегодня онлайн</div>
+            <div class="value" id="stat-today">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Всего событий</div>
+            <div class="value" id="stat-events">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Раскладов сегодня</div>
+            <div class="value" id="stat-readings">—</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>📊 Активность по дням</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" id="activity-chart">
+              <div class="loading">Загрузка...</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>🔥 Популярные карты</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Карта</th>
+                    <th>Выпадений</th>
+                  </tr>
+                </thead>
+                <tbody id="popular-cards">
+                  <tr><td colspan="2" class="loading">Загрузка...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Users Page -->
+      <div id="page-users" class="page hidden">
+        <div class="page-header">
+          <h2>Пользователи</h2>
+          <p>Список всех зарегистрированных пользователей</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Пол</th>
+                    <th>Знак</th>
+                    <th>Streak</th>
+                    <th>Дата</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table">
+                  <tr><td colspan="6" class="loading">Загрузка...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Analytics Page -->
+      <div id="page-analytics" class="page hidden">
+        <div class="page-header">
+          <h2>Аналитика</h2>
+          <p>Детальная статистика использования</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>📱 Типы устройств</h3>
+          </div>
+          <div class="card-body">
+            <p class="loading">Данные загружаются...</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Broadcast Page -->
+      <div id="page-broadcast" class="page hidden">
+        <div class="page-header">
+          <h2>📤 Рассылка</h2>
+          <p>Отправить уведомление через Telegram Bot</p>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Всего пользователей</div>
+            <div class="value" id="stat-total-users">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">С напоминаниями</div>
+            <div class="value" id="stat-reminder-users">—</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>📨 Отправить сообщение</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label>Текст сообщения (HTML поддерживается)</label>
+              <textarea id="broadcast-text" rows="4" style="
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font-family: inherit;
+                resize: vertical;
+              " placeholder="🌙 <b>Привет!</b>&#10;&#10;Введите текст рассылки..."></textarea>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="sendBroadcast()">🚀 Отправить всем</button>
+              <button class="btn btn-secondary" onclick="sendTestBroadcast()">🧪 Тест (1 пользователь)</button>
+              <button class="btn btn-warning" onclick="sendReminders()">⏰ Напомнить всем</button>
+            </div>
+            <div id="broadcast-status" style="margin-top: 16px;"></div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Быстрые шаблоны</h3>
+          </div>
+          <div class="card-body">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <button class="btn btn-sm" onclick="setTemplate(0)">☀️ Доброе утро</button>
+              <button class="btn btn-sm" onclick="setTemplate(1)">🌙 Карта дня</button>
+              <button class="btn btn-sm" onclick="setTemplate(2)">📅 Новый день</button>
+              <button class="btn btn-sm" onclick="setTemplate(3)">🎉 Обновление</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    const API_BASE = '/api';
+    
+    // Check auth
+    const admin = JSON.parse(localStorage.getItem('admin') || 'null');
+    if (!admin) {
+      window.location.href = 'login.html';
+    }
+    
+    // Navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+        document.getElementById(`page-${item.dataset.page}`).classList.remove('hidden');
+        
+        if (item.dataset.page === 'dashboard') loadDashboard();
+        if (item.dataset.page === 'users') loadUsers();
+        if (item.dataset.page === 'broadcast') loadBroadcastStats();
+      });
+    });
+    
+    // Load dashboard
+    async function loadDashboard() {
+      try {
+        const res = await fetch(`${API_BASE}/analytics/stats`);
+        const data = await res.json();
+        
+        document.getElementById('stat-users').textContent = data.totals?.users || 0;
+        document.getElementById('stat-today').textContent = data.today?.unique_users || 0;
+        document.getElementById('stat-events').textContent = data.totals?.events || 0;
+        
+        // Chart
+        const chart = document.getElementById('activity-chart');
+        if (data.activity_by_day?.length) {
+          const max = Math.max(...data.activity_by_day.map(d => d.users));
+          chart.innerHTML = data.activity_by_day.map(d => `
+            <div class="chart-bar" style="height: ${max ? (d.users / max * 150) : 0}px" title="${d.date}: ${d.users} пользователей"></div>
+          `).join('');
+        }
+        
+        // Popular cards
+        const cards = document.getElementById('popular-cards');
+        if (data.popular_cards?.length) {
+          cards.innerHTML = data.popular_cards.map(c => `
+            <tr>
+              <td>${c.card_name || c.card_id}</td>
+              <td><span class="badge badge-info">${c.flips}</span></td>
+            </tr>
+          `).join('');
+        } else {
+          cards.innerHTML = '<tr><td colspan="2">Нет данных</td></tr>';
+        }
+      } catch (err) {
+        console.error('Failed to load dashboard:', err);
+      }
+    }
+    
+    // Load users
+    async function loadUsers() {
+      try {
+        const res = await fetch(`${API_BASE}/users?limit=100`);
+        const data = await res.json();
+        
+        const tbody = document.getElementById('users-table');
+        if (data.users?.length) {
+          tbody.innerHTML = data.users.map(u => `
+            <tr>
+              <td>${u.id}</td>
+              <td>${u.name}</td>
+              <td>${u.gender === 'male' ? '♂' : '♀'}</td>
+              <td><span class="badge badge-success">${u.horoscope_sign || '—'}</span></td>
+              <td>🔥 ${u.streak_days || 0}</td>
+              <td>${new Date(u.created_at).toLocaleDateString()}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="6">Нет пользователей</td></tr>';
+        }
+      } catch (err) {
+        console.error('Failed to load users:', err);
+      }
+    }
+    
+    // Broadcast
+    const templates = [
+      '🌅 <b>Доброе утро!</b>\n\nКак спалось? Готовы узнать, что приготовил этот день?',
+      '🌙 <b>Время гадать!</b>\n\nВаша карта дня ждёт. Откройте приложение, чтобы узнать послание звёзд.',
+      '☀️ <b>Новый день — новые возможности!</b>\n\nЗагляните в будущее с раскладом на сегодня.',
+      '🎉 <b>Обновление приложения!</b>\n\nМы добавили новые функции. Попробуйте прямо сейчас!'
+    ];
+
+    function setTemplate(index) {
+      document.getElementById('broadcast-text').value = templates[index] || '';
+    }
+
+    async function sendBroadcast(testMode = false) {
+      const text = document.getElementById('broadcast-text').value.trim();
+      if (!text) {
+        showStatus('❌ Введите текст сообщения', 'error');
+        return;
+      }
+      
+      const statusEl = document.getElementById('broadcast-status');
+      statusEl.innerHTML = '⏳ Отправка...';
+      
+      try {
+        const res = await fetch(`${API_BASE}/broadcast/send`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, test_mode: testMode })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+          showStatus(`✅ Отправлено: ${data.sent}, Ошибок: ${data.failed}`, 'success');
+        } else {
+          showStatus(`❌ Ошибка: ${data.error || 'Неизвестная ошибка'}`, 'error');
+        }
+      } catch (err) {
+        showStatus('❌ Ошибка сети', 'error');
+      }
+    }
+
+    async function sendTestBroadcast() {
+      await sendBroadcast(true);
+    }
+
+    async function sendReminders() {
+      const statusEl = document.getElementById('broadcast-status');
+      statusEl.innerHTML = '⏳ Отправка напоминаний...';
+      
+      try {
+        const res = await fetch(`${API_BASE}/broadcast/remind-all`, {
+          method: 'POST'
+        });
+        
+        const data = await res.json();
+        showStatus(`✅ Отправлено напоминаний: ${data.sent}`, 'success');
+      } catch (err) {
+        showStatus('❌ Ошибка сети', 'error');
+      }
+    }
+
+    function showStatus(message, type) {
+      const statusEl = document.getElementById('broadcast-status');
+      statusEl.innerHTML = `<div style="padding: 12px; border-radius: 8px; background: ${type === 'success' ? '#dcfce7' : '#fef2f2'}; color: ${type === 'success' ? '#166534' : '#dc2626'};">${message}</div>`;
+    }
+
+    async function loadBroadcastStats() {
+      try {
+        const res = await fetch(`${API_BASE}/users?limit=1000`);
+        const data = await res.json();
+        
+        document.getElementById('stat-total-users').textContent = data.pagination?.total || data.users?.length || 0;
+        document.getElementById('stat-reminder-users').textContent = '—';
+      } catch (err) {
+        console.error('Failed to load broadcast stats:', err);
+      }
+    }
+    
+    // Logout
+    function logout() {
+      localStorage.removeItem('admin');
+      window.location.href = 'login.html';
+    }
+    
+    // Init
+    loadDashboard();
+  </script>
+</body>
+</html>
