@@ -5,167 +5,402 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0a0a1a">
   <title>Таро Мистик</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0e0e28;--card:#141442;--b:#28285c;--a:#9b6dff;--g:#f0c050;--t:#e8e6f0;--t2:#a09cc0;--t3:#6b6890;--font:'Inter',sans-serif;--ft:'Cormorant Garamond',serif}
+body{font-family:var(--font);background:#08081a;color:var(--t);min-height:100vh;overflow-x:hidden;width:100vw}
+#app{max-width:420px;margin:0 auto;min-height:100vh;padding-bottom:30px;position:relative;width:100%;overflow-x:hidden}
+.h{padding:16px;text-align:center}
+.h .l{font-size:2rem;margin-bottom:4px}
+.h h1{font-family:var(--ft);font-size:1.4rem;color:var(--a)}
+.h p{color:var(--t2);font-size:.7rem;margin-top:4px}
+.ts{display:flex;justify-content:center;gap:8px;padding:8px}
+.tb{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.tb.active{border-color:var(--a)}
+.tb.d{background:linear-gradient(135deg,#9b6dff,#7c3aed)}
+.tb.l{background:linear-gradient(135deg,#f5f3f0,#ccc)}
+.tabs{display:flex;gap:4px;padding:8px 16px}
+.tab{flex:1;padding:10px 4px;text-align:center;border:none;background:0;color:var(--t3);font-size:.7rem;cursor:pointer;border-bottom:2px solid transparent}
+.tab.active{color:var(--a);border-bottom-color:var(--a)}
+.tab span{display:block;font-size:1.2rem;margin-bottom:2px}
+.sa{padding:12px 16px;width:100%}
+.st{text-align:center;margin-bottom:8px}
+.st h2{font-family:var(--ft);font-size:1.1rem;color:var(--t);margin-bottom:4px}
+.st p{color:var(--t3);font-size:.65rem}
+.tm{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;margin-bottom:12px;background:var(--card);border-radius:8px;font-size:.7rem;color:var(--t2)}
+.tm span{color:var(--a);font-weight:600}
+.g{width:100%;margin-bottom:16px}
 
-    :root {
-      --bg-deep: #08081a;
-      --bg: #0e0e28;
-      --bg-card: #141442;
-      --bg-card-hover: #1a1a52;
-      --border: #28285c;
-      --accent: #9b6dff;
-      --accent2: #7c3aed;
-      --accent-glow: rgba(155, 109, 255, 0.2);
-      --gold: #f0c050;
-      --gold-glow: rgba(240, 192, 80, 0.13);
-      --magenta: #e879f9;
-      --text: #e8e6f0;
-      --text2: #a09cc0;
-      --text3: #6b6890;
-      --font-title: 'Cormorant Garamond', Georgia, serif;
-      --font-body: 'Inter', -apple-system, sans-serif;
-    }
+/* ОДИНОЧНАЯ КАРТА (день) */
+.g.s{display:flex;justify-content:center}
+.card-container-single{width:140px;height:196px;position:relative;margin:0 auto 16px}
+.card-single{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.6s;cursor:pointer}
+.card-single.flipped{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:8px;background:var(--card);border:1px solid var(--b);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px}
+.card-back{transform:rotateY(180deg);background:linear-gradient(135deg,var(--b),var(--card))}
+.card-back::before{content:'';position:absolute;inset:8px;border:2px solid var(--a);border-radius:4px;opacity:0.3}
+.c{width:100%;aspect-ratio:1/1.4;background:var(--card);border:1px solid var(--b);border-radius:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;position:relative;transition:transform .3s}
+.c:active{transform:scale(.98)}
+.c .icon{font-size:1.4rem;margin-bottom:4px}
+.c .name{font-family:var(--ft);font-size:.6rem;color:var(--t);text-align:center;line-height:1.2}
+.c .rev{position:absolute;top:3px;right:3px;background:rgba(232,121,249,.2);color:#e879f9;font-size:.45rem;padding:1px 3px;border-radius:3px;font-weight:600}
 
-    body {
-      font-family: var(--font-body);
-      background: var(--bg-deep);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+/* НЕДЕЛЯ - карты по кругу */
+.g.w{position:relative;height:320px;margin:0 auto}
+.circle-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:var(--card);border:2px solid var(--a);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1}
+.circle-center span:first-child{font-size:1.2rem}
+.circle-center span:last-child{font-size:.5rem;color:var(--t2)}
+.card-wrapper{position:absolute;width:50px;transform-origin:center 140px}
+.card-wrapper .pl{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.5rem;color:var(--a);font-weight:600;text-transform:uppercase;white-space:nowrap}
+.card-wrapper .c{width:50px;height:70px}
+.card-wrapper .c .icon{font-size:.9rem;margin-bottom:2px}
+.card-wrapper .c .name{font-size:.45rem}
 
-    #root { max-width: 420px; margin: 0 auto; min-height: 100vh; position: relative; }
+/* МЕСЯЦ - сетка 3x2 */
+.g.m{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-width:280px;margin:0 auto 16px}
+.g.m .pl{font-size:.5rem;text-align:center;margin-bottom:2px}
+.g.m .c{width:100%;aspect-ratio:1/1.3;min-height:80px}
 
-    .bg-stars {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 0;
-      background-image:
-        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4), transparent),
-        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5), transparent),
-        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.4), transparent);
-    }
+/* КНОПКИ */
+.btn{width:calc(100% - 32px);max-width:240px;display:block;margin:0 auto 10px;padding:12px 20px;border:none;border-radius:20px;font-weight:600;cursor:pointer;background:linear-gradient(135deg,var(--a),#7c3aed);color:#fff;font-family:var(--font)}
+.btn2{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 32px);max-width:240px;margin:0 auto;padding:10px 20px;border:1px solid var(--b);border-radius:20px;background:0;color:var(--t2);font-size:.75rem;cursor:pointer}
 
-    .app-container { position: relative; z-index: 1; padding-bottom: 20px; }
+/* РЕЗУЛЬТАТЫ */
+.rs{padding:12px 16px}
+.rc{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.rc h3{font-family:var(--ft);font-size:.85rem;color:var(--a);margin-bottom:6px}
+.rc .cm{display:flex;gap:8px}
+.rc .cm .e{font-size:1.4rem}
+.rc .cm .info h4{font-size:.7rem;color:var(--t);margin-bottom:2px}
+.rc .cm .info p{font-size:.65rem;color:var(--t2);line-height:1.4}
+.sb{background:var(--card);border:1px solid var(--a);border-radius:10px;padding:12px;margin-bottom:8px}
+.sb h3{font-family:var(--ft);font-size:.9rem;color:var(--a);margin-bottom:6px}
+.sb p{font-size:.7rem;color:var(--t);line-height:1.5}
+.ab{border-color:var(--g)}
+.ab h3{color:var(--g)}
+.ft{text-align:center;padding:20px 16px;color:var(--t3);font-size:.6rem;line-height:1.5}
 
-    /* Header */
-    .header { padding: 16px; text-align: center; }
-    .header .logo { font-size: 2rem; margin-bottom: 8px; }
-    .header h1 { font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-    .header p { color: var(--text2); font-size: 0.75rem; margin-top: 4px; }
-
-    /* Theme */
-    .theme-switcher { display: flex; gap: 8px; justify-content: center; padding: 8px 16px; }
-    .theme-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
-    .theme-btn.active { border-color: var(--accent); }
-    .theme-btn.dark { background: linear-gradient(135deg, #9b6dff, #7c3aed); }
-    .theme-btn.light { background: linear-gradient(135deg, #f5f3f0, #e0dcd6); }
-
-    /* Tabs */
-    .tabs { display: flex; gap: 4px; padding: 8px 16px 0; }
-    .tab { flex: 1; padding: 10px 8px; text-align: center; border: none; background: transparent; color: var(--text3); font-size: 0.75rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s; }
-    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .tab .tab-icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
-
-    /* Spread area */
-    .spread-area { padding: 16px; }
-    .spread-title { text-align: center; margin-bottom: 8px; }
-    .spread-title h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .spread-title p { color: var(--text3); font-size: 0.7rem; }
-
-    /* Timer */
-    .timer-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px; margin-bottom: 12px; background: var(--bg-card); border-radius: 8px; }
-    .timer-text { font-size: 0.7rem; color: var(--text2); }
-    .timer-highlight { color: var(--accent); font-weight: 600; }
-
-    /* Cards Grid */
-    .cards-grid { display: grid; gap: 12px; margin-bottom: 16px; }
-    .cards-grid.single { grid-template-columns: 1fr; max-width: 160px; margin: 0 auto 16px; }
-    .cards-grid.week { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, auto); }
-    .cards-grid.week .card-appear:nth-child(1) { grid-column: 2; }
-    .cards-grid.week .card-appear:nth-child(2) { grid-column: 3; }
-    .cards-grid.week .card-appear:nth-child(3) { grid-column: 4; }
-    .cards-grid.week .card-appear:nth-child(4) { grid-column: 3; }
-    .cards-grid.week .card-appear:nth-child(5) { grid-column: 2; }
-    .cards-grid.week .card-appear:nth-child(6) { grid-column: 1; }
-    .cards-grid.week .card-appear:nth-child(7) { grid-column: 2; }
-
-    /* Position Label */
-    .position-label { text-align: center; margin-bottom: 4px; font-size: 0.6rem; color: var(--accent); font-weight: 600; text-transform: uppercase; }
-
-    /* Tarot Card */
-    .tarot-card { perspective: 800px; cursor: pointer; user-select: none; width: 100%; }
-    .tarot-card-inner { position: relative; width: 100%; padding-top: 140%; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-    .tarot-card.flipped .tarot-card-inner { transform: rotateY(180deg); }
-    .card-face { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; overflow: hidden; }
-    .card-back { background: linear-gradient(145deg, #1a1a4a, #0d0d2b); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
-    .card-back::before { content: ''; position: absolute; inset: 6px; border: 1px solid var(--accent); border-radius: 6px; opacity: 0.3; }
-    .back-symbol { font-size: 1.5rem; opacity: 0.6; }
-    .card-front { transform: rotateY(180deg); background: var(--bg-card); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; }
-    .card-front .reversed-badge { position: absolute; top: 4px; right: 4px; background: rgba(232,121,249,0.2); color: var(--magenta); font-size: 0.5rem; padding: 2px 4px; border-radius: 4px; font-weight: 600; }
-    .card-icon { font-size: 1.8rem; margin-bottom: 4px; }
-    .card-name { font-family: var(--font-title); font-size: 0.7rem; font-weight: 600; color: var(--text); text-align: center; }
-
-    /* Buttons */
-    .btn-flip-all { display: block; width: 100%; max-width: 240px; margin: 0 auto 12px; padding: 12px 20px; border: none; border-radius: 20px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 600; cursor: pointer; }
-    .btn-refresh { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; max-width: 240px; margin: 0 auto; padding: 10px 20px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text2); font-size: 0.8rem; cursor: pointer; }
-
-    /* Reading Section */
-    .reading-section { padding: 12px; }
-    .reading-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
-    .reading-card h3 { font-family: var(--font-title); font-size: 0.9rem; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .reading-card .card-meaning { display: flex; gap: 8px; }
-    .reading-card .card-meaning .emoji { font-size: 1.5rem; flex-shrink: 0; }
-    .reading-card .card-meaning .info h4 { font-size: 0.75rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-    .reading-card .card-meaning .info p { font-size: 0.7rem; color: var(--text2); line-height: 1.5; }
-
-    .summary-box { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
-    .summary-box h3 { font-family: var(--font-title); font-size: 0.95rem; color: var(--accent); margin-bottom: 6px; }
-    .summary-box p { font-size: 0.75rem; color: var(--text); line-height: 1.6; }
-
-    .advice-box { background: var(--bg-card); border: 1px solid var(--gold); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
-    .advice-box h3 { font-family: var(--font-title); font-size: 0.95rem; color: var(--gold); margin-bottom: 6px; }
-    .advice-box p { font-size: 0.75rem; color: var(--text); line-height: 1.6; }
-
-    /* Modal */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
-    .modal-content { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; max-width: 280px; width: 100%; padding: 20px; }
-    .modal-header { text-align: center; margin-bottom: 16px; }
-    .modal-header .icon { font-size: 2.5rem; margin-bottom: 8px; display: block; }
-    .modal-header h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
-    .modal-header p { color: var(--text2); font-size: 0.75rem; }
-
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 0.75rem; color: var(--text2); margin-bottom: 4px; }
-    .form-group input { width: 100%; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.85rem; }
-    .form-group input:focus { outline: none; border-color: var(--accent); }
-
-    .gender-toggle { display: flex; gap: 8px; }
-    .gender-option { flex: 1; padding: 8px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 8px; color: var(--text2); font-size: 0.75rem; cursor: pointer; text-align: center; }
-    .gender-option.active { border-color: var(--accent); color: var(--accent); }
-
-    .btn { width: 100%; padding: 12px; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; }
-    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
-
-    .footer { text-align: center; padding: 16px; color: var(--text3); font-size: 0.6rem; }
-
-    /* Animations */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-    @keyframes cardAppear { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
-    .card-appear { animation: cardAppear 0.5s ease forwards; }
-    .logo { animation: float 4s ease-in-out infinite; }
+/* МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;overflow-y:auto}
+.mc{background:var(--bg);border:1px solid var(--b);border-radius:16px;max-width:300px;width:100%;padding:24px;max-height:90vh;overflow-y:auto}
+.mh{text-align:center;margin-bottom:20px}
+.mh .i{font-size:2.5rem;margin-bottom:8px}
+.mh h2{font-family:var(--ft);font-size:1.2rem;color:var(--a);margin-bottom:4px}
+.mh p{color:var(--t2);font-size:.75rem}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:.75rem;color:var(--t2);margin-bottom:6px}
+.fg input{width:100%;padding:12px;background:var(--card);border:1px solid var(--b);border-radius:10px;color:var(--t);font-size:.9rem;font-family:var(--font)}
+.fg input:focus{outline:none;border-color:var(--a)}
+.gt{display:flex;gap:8px;margin-bottom:14px}
+.go{flex:1;padding:10px;background:var(--card);border:2px solid var(--b);border-radius:10px;color:var(--t2);font-size:.75rem;cursor:pointer;text-align:center}
+.go.active{border-color:var(--a);color:var(--a)}
+.bp{width:100%;padding:14px;border:none;border-radius:25px;background:linear-gradient(135deg,var(--a),#7c3aed);color:#fff;font-weight:600;cursor:pointer;font-size:.9rem}
+@keyframes app{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.ca{animation:app .4s ease forwards;opacity:0}
   </style>
 </head>
 <body>
-  <div class="bg-stars"></div>
-  <div id="root"></div>
-  <script src="app.js"></script>
+<div id="app"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script>
+const{useState,useEffect,useCallback}=React;
+
+const T=[
+{id:0,n:"Шут",i:"🃏",m:"Новые начинания, свобода.",r:"Легкомыслие, страх перемен."},
+{id:1,n:"Маг",i:"🪄",m:"Сила воли, мастерство.",r:"Манипуляции, обман."},
+{id:2,n:"Жрица",i:"🌙",m:"Интуиция, тайны.",r:"Подавленная интуиция."},
+{id:3,n:"Императрица",i:"👑",m:"Изобилие, забота.",r:"Творческий блок."},
+{id:4,n:"Император",i:"🏛️",m:"Власть, стабильность.",r:"Тирания."},
+{id:5,n:"Иерофант",i:"📿",m:"Традиции, обучение.",r:"Вызов традициям."},
+{id:6,n:"Влюблённые",i:"💕",m:"Любовь, гармония.",r:"Дисгармония."},
+{id:7,n:"Колесница",i:"⚔️",m:"Победа, движение.",r:"Потеря контроля."},
+{id:8,n:"Сила",i:"🦁",m:"Мужество, терпение.",r:"Слабость."},
+{id:9,n:"Отшельник",i:"🏔️",m:"Поиск истины.",r:"Изоляция."},
+{id:10,n:"Колесо",i:"☸️",m:"Перемены, удача.",r:"Неудача."},
+{id:11,n:"Справедливость",i:"⚖️",m:"Баланс, правда.",r:"Несправедливость."},
+{id:12,n:"Повешенный",i:"🙃",m:"Новая перспектива.",r:"Тщетная жертва."},
+{id:13,n:"Смерть",i:"🦋",m:"Трансформация.",r:"Страх перемен."},
+{id:14,n:"Умеренность",i:"⏳",m:"Баланс, гармония.",r:"Дисбаланс."},
+{id:15,n:"Дьявол",i:"🔗",m:"Искушения.",r:"Освобождение."},
+{id:16,n:"Башня",i:"⚡",m:"Разрушение, откровение.",r:"Предотвращение."},
+{id:17,n:"Звезда",i:"⭐",m:"Надежда, вера.",r:"Отчаяние."},
+{id:18,n:"Луна",i:"🌕",m:"Иллюзии, страх.",r:"Ясность."},
+{id:19,n:"Солнце",i:"☀️",m:"Радость, успех.",r:"Трудности."},
+{id:20,n:"Суд",i:"📯",m:"Пробуждение.",r:"Самосомнение."},
+{id:21,n:"Мир",i:"🌍",m:"Завершение.",r:"Незавершённость."},
+{n:"Туз Жезлов",i:"🔥",m:"Вдохновение.",r:"Задержки."},
+{n:"Двойка Жезлов",i:"🌍",m:"Планирование.",r:"Страх."},
+{n:"Тройка Жезлов",i:"🚢",m:"Расширение.",r:"Задержки."},
+{n:"Туз Кубков",i:"💧",m:"Эмоции.",r:"Блокировка."},
+{n:"Двойка Кубков",i:"💑",m:"Партнёрство.",r:"Разрыв."},
+{n:"Туз Мечей",i:"🗡️",m:"Прорыв.",r:"Хаос."},
+{n:"Туз Пентаклей",i:"💰",m:"Изобилие.",r:"Потери."}
+];
+
+function gk(){
+const d=new Date();
+return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+function gs(s){
+let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i);
+return()=>{h|=0;h=h+0x6D2B79F5|0;let t=Math.imul(h^h>>>15,1|h);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+}
+
+function gen(t){
+const k=t==='day'?gk():t==='week'?`w${gk()}`:`m${gk()}`;
+const rng=gs(k);
+const ps={day:["Сегодня"],week:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],month:["Энергия","Влияния","Ресурсы","Тайное","Совет","Итог"]};
+const c=[];const u=new Set();
+for(let j=0;j<(t==='day'?1:t==='week'?7:6);j++){
+let x;do{x=Math.floor(rng()*T.length)}while(u.has(x));
+u.add(x);const card={...T[x]};
+card.rev=rng()<.25;card.p=ps[t][j];c.push(card);
+}
+return{type:t,cards:c,t:t==='day'?"Карта дня":t==='week'?"Расклад на неделю":"Расклад на месяц"};
+}
+
+function interp(s){
+const r=s.cards.filter(x=>x.rev).length;
+const n=s.cards.length;
+if(s.type==='day'){const c=s.cards[0];return c.rev?`Карта "${c.n}" указывает на ${c.r}`:`Карта "${c.n}" несёт ${c.m}`;}
+if(s.type==='week'){
+if(r>n/2)return`${r} из ${n} карт перевёрнуты — период внутренней работы и переосмысления.`;
+if(r===0)return`Все карты прямо — гармоничная неделя впереди!`;
+return`${n-r} прямых и ${r} перевёрнутых — обратите внимание на обе стороны.`;
+}
+if(s.type==='month'){
+const revCards=s.cards.filter(x=>x.rev);
+const straightCards=s.cards.filter(x=>!x.rev);
+if(revCards.length>straightCards.length)return`Месяц потребует внутренней работы. ${revCards.length} карт указывают на скрытые аспекты.`;
+if(revCards.length<straightCards.length)return`Благоприятный месяц для внешней активности. ${straightCards.length} карт обещают ясность.`;
+return`Баланс сил. Месяц перемен — используйте обе стороны.`;
+}
+return`${n-r} прямых и ${r} перевёрнутых карт — обратите внимание на обе стороны.`;
+}
+
+function advice(s){
+const c=s.cards[0];
+if(s.type==='month'){
+const allRev=s.cards.every(x=>x.rev);
+const mostRev=s.cards.filter(x=>x.rev).length>s.cards.length/2;
+if(allRev||mostRev)return"Месяц благоприятен для размышлений и планирования.";
+return"Используйте энергию месяца для решительных действий.";
+}
+if(c.id<=21)return c.rev?"Будьте осторожны с решениями.":"Доверяйте интуиции!";
+return c.rev?"Обратите внимание на детали.":"Действуйте уверенно.";
+}
+
+function SingleCard({c,F,fl}){
+return React.createElement('div',{className:'card-container-single'},
+React.createElement('div',{className:'card-single'+(F?' flipped':''),onClick:()=>!F&&fl()},
+React.createElement('div',{className:'card-front'},
+React.createElement('span',{className:'icon'},c.i),
+React.createElement('span',{className:'name'},c.n),
+F&&c.rev&&React.createElement('span',{className:'rev'},'▼')
+),
+React.createElement('div',{className:'card-back'})
+)
+);
+}
+
+function WeekCards({cards,F,fl}){
+const centerX=50;
+const centerY=50;
+const radius=42;
+const dayLabels=["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
+const startAngle=-90;
+
+return React.createElement('div',{className:'g w',style:{width:'100%',maxWidth:'300px',margin:'0 auto 16px'}},
+React.createElement('div',{className:'circle-center'},
+React.createElement('span',null,'📅'),
+React.createElement('span',null,'Неделя')
+),
+cards.map((c,i)=>{
+const angle=(startAngle+i*(360/7))*Math.PI/180;
+const x=centerX+radius*Math.cos(angle)-2.5;
+const y=centerY+radius*Math.sin(angle)-3.5;
+const rotation=angle*180/Math.PI+90;
+return React.createElement('div',{
+key:i,
+className:'card-wrapper ca',
+style:{
+left:`${x}%`,
+top:`${y}%`,
+transform:`rotate(${rotation}deg)`,
+animationDelay:`${i*.1}s`,
+zIndex:i<4?i:7-i
+},
+onClick:()=>!F[i]&&fl(i)
+},
+React.createElement('span',{className:'pl'},dayLabels[(i+1)%7]),
+React.createElement('div',{className:'c'+(F[i]?' fl':'')},
+React.createElement('span',{className:'icon'},c.i),
+React.createElement('span',{className:'name'},F[i]?c.n:'\u2022\u2022\u2022'),
+F[i]&&c.rev&&React.createElement('span',{className:'rev'},'▼')
+)
+);
+})
+);
+}
+
+function MonthCards({cards,F,fl}){
+return React.createElement('div',{className:'g m'},
+cards.map((c,i)=>
+React.createElement('div',{key:i,className:'ca',style:{animationDelay:`${i*.1}s`}},
+React.createElement('div',{className:'pl'},c.p),
+React.createElement('div',{className:'c'+(F[i]?' fl':''),onClick:()=>!F[i]&&fl(i)},
+React.createElement('span',{className:'icon'},F[i]?c.i:'\u2728'),
+React.createElement('span',{className:'name'},F[i]?c.n:'\u2022\u2022\u2022'),
+F[i]&&c.rev&&React.createElement('span',{className:'rev'},'▼')
+)
+)
+)
+);
+}
+
+function Card({c,F,fl}){
+return React.createElement('div',{className:'c'+(F?' fl':''),onClick:()=>!F&&fl()},
+React.createElement('span',{className:'icon'},c.i),
+React.createElement('span',{className:'name'},c.n),
+F&&c.rev&&React.createElement('span',{className:'rev'},'▼')
+);
+}
+
+function Modal({on}){
+const[n,setN]=useState('');
+const[g,setG]=useState('');
+const[b,setB]=useState('');
+const cs=(d)=>{const m=d.getMonth()+1,day=d.getDate();
+const s=[['capricorn',1,19],['aquarius',1,20],['pisces',2,18],['aries',3,20],['taurus',4,20],['gemini',5,20],['cancer',6,21],['leo',7,22],['virgo',8,22],['libra',9,22],['scorpio',10,22],['sagittarius',11,21],['capricorn',12,21]];
+for(const[x,m2,d2]of s)if(m<m2||(m===m2&&day<=d2))return x;return'capricorn'};
+const sub=()=>{if(!n||!g||!b)return;on({n,g,b,s:cs(new Date(b))})};
+return React.createElement('div',{className:'mo'},
+React.createElement('div',{className:'mc'},
+React.createElement('div',{className:'mh'},
+React.createElement('div',{className:'i'},'🌙'),
+React.createElement('h2',null,'Добро пожаловать!'),
+React.createElement('p',null,'Расскажите немного о себе')
+),
+React.createElement('div',{className:'fg'},
+React.createElement('label',null,'Ваше имя'),
+React.createElement('input',{type:'text',placeholder:'Как вас зовут?',value:n,onChange:e=>setN(e.target.value)})
+),
+React.createElement('div',{className:'fg'},
+React.createElement('label',null,'Пол'),
+React.createElement('div',{className:'gt'},
+React.createElement('button',{className:'go'+(g==='male'?' active':''),onClick:()=>setG('male')},'♂ Мужчина'),
+React.createElement('button',{className:'go'+(g==='female'?' active':''),onClick:()=>setG('female')},'♀ Женщина')
+)
+),
+React.createElement('div',{className:'fg'},
+React.createElement('label',null,'Дата рождения'),
+React.createElement('input',{type:'date',value:b,onChange:e=>setB(e.target.value)})
+),
+React.createElement('button',{className:'bp',onClick:sub},'Продолжить ✨')
+)
+);
+}
+
+function App(){
+const[tg]=useState(window.Telegram?.WebApp);
+const[usr,setUsr]=useState(null);
+const[m,setM]=useState(true);
+const[th,setTh]=useState('dark');
+const[tab,setTab]=useState('day');
+const[f,setF]=useState({});
+const[sp,setSp]=useState(null);
+
+useEffect(()=>{if(tg){tg.ready();tg.expand()}const s=localStorage.getItem('taro_u');if(s){setUsr(JSON.parse(s));setM(false)}},[]);
+
+const fa=useCallback(()=>{
+const nf={};sp.cards.forEach((_,i)=>nf[`${tab}-${i}`]=true);setF(nf);
+},[tab,sp]);
+
+const ns=useCallback(()=>{setSp(gen(tab));setF({})},[tab]);
+
+const tc=(t)=>{const n=new Date(),nn=t==='day'?new Date(n.getFullYear(),n.getMonth(),n.getDate()+1):t==='week'?new Date(n.getFullYear(),n.getMonth(),n.getDate()+(8-n.getDay())%7||7):new Date(n.getFullYear(),n.getMonth()+1,1);return nn-n};
+
+const fl=useCallback((i)=>setF(p=>({...p,[`${tab}-${i}`]:true})),[tab]);
+
+useEffect(()=>{setSp(gen(tab))},[tab]);
+
+const allF=sp?.cards.every((_,i)=>f[`${tab}-${i}`]);
+const e=allF?interp(sp):null;
+const a=allF?advice(sp):null;
+
+function formatTime(ms){
+const h=Math.floor(ms/3600000);
+const min=Math.floor((ms%3600000)/60000);
+return`${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+}
+
+if(m)return React.createElement(Modal,{on:d=>{localStorage.setItem('taro_u',JSON.stringify(d));setUsr(d);setM(false)}});
+
+const gridClass=tab==='day'?'s':tab==='week'?'w':'m';
+
+return React.createElement('div',null,
+React.createElement('div',{className:'h'},
+React.createElement('div',{className:'ts'},
+React.createElement('button',{className:'tb d'+(th==='dark'?' active':''),onClick:()=>{setTh('dark');document.body.style.background='#08081a'}}),
+React.createElement('button',{className:'tb l'+(th==='light'?' active':''),onClick:()=>{setTh('light');document.body.style.background='#f0f0f0'}})
+),
+React.createElement('div',{className:'l'},'🌙'),
+React.createElement('h1',null,'Таро Мистик'),
+usr&&React.createElement('p',null,`Привет, ${usr.n}!`),
+React.createElement('p',null,'Карты, которые знают ответ')
+),
+React.createElement('div',{className:'tabs'},
+[{id:'day',i:'☀️',l:'День'},{id:'week',i:'📅',l:'Неделя'},{id:'month',i:'🌙',l:'Месяц'}].map(x=>
+React.createElement('button',{key:x.id,className:'tab'+(tab===x.id?' active':''),onClick:()=>setTab(x.id)},
+React.createElement('span',null,x.i),
+React.createElement('span',null,x.l)
+)
+)
+),
+React.createElement('div',{className:'sa'},
+React.createElement('div',{className:'st'},
+React.createElement('h2',null,sp?.t),
+React.createElement('p',null,allF?'Все открыты':'Нажмите на карту')
+),
+React.createElement('div',{className:'tm'},
+React.createElement('span',null,'⏳ Обновится через: '),
+React.createElement('span',null,formatTime(tc(tab)))
+),
+tab==='day'&&sp&&React.createElement(SingleCard,{c:sp.cards[0],F:f[`${tab}-0`],fl:()=>fl(0)}),
+tab==='week'&&sp&&React.createElement(WeekCards,{cards:sp.cards,F:sp.cards.map((_,i)=>f[`${tab}-${i}`]),fl}),
+tab==='month'&&sp&&React.createElement(MonthCards,{cards:sp.cards,F:sp.cards.map((_,i)=>f[`${tab}-${i}`]),fl}),
+!allF&&React.createElement('button',{className:'btn',onClick:fa},'✨ Открыть все'),
+React.createElement('button',{className:'btn2',onClick:ns},'🔄 Новый расклад')
+),
+allF&&React.createElement('div',{className:'rs'},
+sp.cards.map((c,i)=>React.createElement('div',{key:i,className:'rc'},
+React.createElement('h3',null,c.i,' ',c.p,c.rev?' (перевёрнутая)':''),
+React.createElement('div',{className:'cm'},
+React.createElement('span',{className:'e'},c.i),
+React.createElement('div',{className:'info'},
+React.createElement('h4',null,c.n),
+React.createElement('p',null,c.rev?c.r:c.m)
+)
+)
+)),
+e&&React.createElement('div',{className:'sb'},
+React.createElement('h3',null,'🔮 Прогноз'),
+React.createElement('p',null,e)
+),
+a&&React.createElement('div',{className:'sb ab'},
+React.createElement('h3',null,'✨ Совет'),
+React.createElement('p',null,a)
+)
+),
+React.createElement('div',{className:'ft'},'🌙 Таро Мистик — бесплатные расклады')
+);
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(React.createElement(App));
+</script>
 </body>
 </html>
