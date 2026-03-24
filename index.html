@@ -32,8 +32,6 @@ body{font-family:var(--font);background:#08081a;color:var(--t);min-height:100vh;
 .tm{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;margin-bottom:12px;background:var(--card);border-radius:8px;font-size:.7rem;color:var(--t2)}
 .tm span{color:var(--a);font-weight:600}
 .g{width:100%;margin-bottom:16px}
-
-/* ОДИНОЧНАЯ КАРТА (день) */
 .g.s{display:flex;justify-content:center}
 .card-container-single{width:140px;height:196px;position:relative;margin:0 auto 16px}
 .card-single{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.6s;cursor:pointer}
@@ -43,31 +41,24 @@ body{font-family:var(--font);background:#08081a;color:var(--t);min-height:100vh;
 .card-back::before{content:'';position:absolute;inset:8px;border:2px solid var(--a);border-radius:4px;opacity:0.3}
 .c{width:100%;aspect-ratio:1/1.4;background:var(--card);border:1px solid var(--b);border-radius:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;position:relative;transition:transform .3s}
 .c:active{transform:scale(.98)}
+.c.fl{transform:rotateY(180deg)}
 .c .icon{font-size:1.4rem;margin-bottom:4px}
 .c .name{font-family:var(--ft);font-size:.6rem;color:var(--t);text-align:center;line-height:1.2}
 .c .rev{position:absolute;top:3px;right:3px;background:rgba(232,121,249,.2);color:#e879f9;font-size:.45rem;padding:1px 3px;border-radius:3px;font-weight:600}
-
-/* НЕДЕЛЯ - карты по кругу */
-.g.w{position:relative;height:320px;margin:0 auto}
+.g.w{position:relative;height:280px;margin:0 auto}
 .circle-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:var(--card);border:2px solid var(--a);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1}
 .circle-center span:first-child{font-size:1.2rem}
 .circle-center span:last-child{font-size:.5rem;color:var(--t2)}
-.card-wrapper{position:absolute;width:50px;transform-origin:center 140px}
-.card-wrapper .pl{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.5rem;color:var(--a);font-weight:600;text-transform:uppercase;white-space:nowrap}
-.card-wrapper .c{width:50px;height:70px}
-.card-wrapper .c .icon{font-size:.9rem;margin-bottom:2px}
-.card-wrapper .c .name{font-size:.45rem}
-
-/* МЕСЯЦ - сетка 3x2 */
-.g.m{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-width:280px;margin:0 auto 16px}
+.card-wrapper{position:absolute;width:50px;transform-origin:center 120px}
+.card-wrapper .pl{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:.45rem;color:var(--a);font-weight:600;text-transform:uppercase;white-space:nowrap}
+.card-wrapper .c{width:50px;height:65px}
+.card-wrapper .c .icon{font-size:.85rem;margin-bottom:2px}
+.card-wrapper .c .name{font-size:.4rem}
+.g.m{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-width:260px;margin:0 auto 16px}
 .g.m .pl{font-size:.5rem;text-align:center;margin-bottom:2px}
-.g.m .c{width:100%;aspect-ratio:1/1.3;min-height:80px}
-
-/* КНОПКИ */
+.g.m .c{width:100%;aspect-ratio:1/1.3;min-height:75px}
 .btn{width:calc(100% - 32px);max-width:240px;display:block;margin:0 auto 10px;padding:12px 20px;border:none;border-radius:20px;font-weight:600;cursor:pointer;background:linear-gradient(135deg,var(--a),#7c3aed);color:#fff;font-family:var(--font)}
 .btn2{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 32px);max-width:240px;margin:0 auto;padding:10px 20px;border:1px solid var(--b);border-radius:20px;background:0;color:var(--t2);font-size:.75rem;cursor:pointer}
-
-/* РЕЗУЛЬТАТЫ */
 .rs{padding:12px 16px}
 .rc{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:10px 12px;margin-bottom:8px}
 .rc h3{font-family:var(--ft);font-size:.85rem;color:var(--a);margin-bottom:6px}
@@ -81,10 +72,8 @@ body{font-family:var(--font);background:#08081a;color:var(--t);min-height:100vh;
 .ab{border-color:var(--g)}
 .ab h3{color:var(--g)}
 .ft{text-align:center;padding:20px 16px;color:var(--t3);font-size:.6rem;line-height:1.5}
-
-/* МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;overflow-y:auto}
-.mc{background:var(--bg);border:1px solid var(--b);border-radius:16px;max-width:300px;width:100%;padding:24px;max-height:90vh;overflow-y:auto}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;overflow:hidden}
+.mc{background:var(--bg);border:1px solid var(--b);border-radius:16px;max-width:300px;width:100%;padding:20px}
 .mh{text-align:center;margin-bottom:20px}
 .mh .i{font-size:2.5rem;margin-bottom:8px}
 .mh h2{font-family:var(--ft);font-size:1.2rem;color:var(--a);margin-bottom:4px}
@@ -106,9 +95,12 @@ body{font-family:var(--font);background:#08081a;color:var(--t);min-height:100vh;
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script>
-const{useState,useEffect,useCallback}=React;
+(function(){
+var _useState=React.useState;
+var _useEffect=React.useEffect;
+var _useCallback=React.useCallback;
 
-const T=[
+var T=[
 {id:0,n:"Шут",i:"🃏",m:"Новые начинания, свобода.",r:"Легкомыслие, страх перемен."},
 {id:1,n:"Маг",i:"🪄",m:"Сила воли, мастерство.",r:"Манипуляции, обман."},
 {id:2,n:"Жрица",i:"🌙",m:"Интуиция, тайны.",r:"Подавленная интуиция."},
@@ -141,52 +133,68 @@ const T=[
 ];
 
 function gk(){
-const d=new Date();
-return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+var d=new Date();
+return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
 }
 
 function gs(s){
-let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i);
-return()=>{h|=0;h=h+0x6D2B79F5|0;let t=Math.imul(h^h>>>15,1|h);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+var h=0;
+for(var i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i);
+return function(){
+h|=0;
+h=h+0x6D2B79F5|0;
+var t=Math.imul(h^h>>>15,1|h);
+t=t+Math.imul(t^t>>>7,61|t)^t;
+return((t^t>>>14)>>>0)/4294967296;
+};
 }
 
 function gen(t){
-const k=t==='day'?gk():t==='week'?`w${gk()}`:`m${gk()}`;
-const rng=gs(k);
-const ps={day:["Сегодня"],week:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],month:["Энергия","Влияния","Ресурсы","Тайное","Совет","Итог"]};
-const c=[];const u=new Set();
-for(let j=0;j<(t==='day'?1:t==='week'?7:6);j++){
-let x;do{x=Math.floor(rng()*T.length)}while(u.has(x));
-u.add(x);const card={...T[x]};
-card.rev=rng()<.25;card.p=ps[t][j];c.push(card);
+var k=t==='day'?gk():t==='week'?'w'+gk():'m'+gk();
+var rng=gs(k);
+var ps={day:["Сегодня"],week:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],month:["Энергия","Влияния","Ресурсы","Тайное","Совет","Итог"]};
+var c=[];
+var u=new Set();
+var count=t==='day'?1:t==='week'?7:6;
+for(var j=0;j<count;j++){
+var x;
+do{x=Math.floor(rng()*T.length)}while(u.has(x));
+u.add(x);
+var card=Object.assign({},T[x]);
+card.rev=rng()<.25;
+card.p=ps[t][j];
+c.push(card);
 }
 return{type:t,cards:c,t:t==='day'?"Карта дня":t==='week'?"Расклад на неделю":"Расклад на месяц"};
 }
 
 function interp(s){
-const r=s.cards.filter(x=>x.rev).length;
-const n=s.cards.length;
-if(s.type==='day'){const c=s.cards[0];return c.rev?`Карта "${c.n}" указывает на ${c.r}`:`Карта "${c.n}" несёт ${c.m}`;}
+var r=s.cards.filter(function(x){return x.rev}).length;
+var n=s.cards.length;
+if(s.type==='day'){
+var c=s.cards[0];
+return c.rev?'Карта "'+c.n+'" указывает на '+c.r:'Карта "'+c.n+'" несёт '+c.m;
+}
 if(s.type==='week'){
-if(r>n/2)return`${r} из ${n} карт перевёрнуты — период внутренней работы и переосмысления.`;
-if(r===0)return`Все карты прямо — гармоничная неделя впереди!`;
-return`${n-r} прямых и ${r} перевёрнутых — обратите внимание на обе стороны.`;
+if(r>n/2)return r+' из '+n+' карт перевёрнуты — период внутренней работы и переосмысления.';
+if(r===0)return'Все карты прямо — гармоничная неделя впереди!';
+return(n-r)+' прямых и '+r+' перевёрнутых — обратите внимание на обе стороны.';
 }
 if(s.type==='month'){
-const revCards=s.cards.filter(x=>x.rev);
-const straightCards=s.cards.filter(x=>!x.rev);
-if(revCards.length>straightCards.length)return`Месяц потребует внутренней работы. ${revCards.length} карт указывают на скрытые аспекты.`;
-if(revCards.length<straightCards.length)return`Благоприятный месяц для внешней активности. ${straightCards.length} карт обещают ясность.`;
-return`Баланс сил. Месяц перемен — используйте обе стороны.`;
+var revCards=s.cards.filter(function(x){return x.rev});
+var straightCards=s.cards.filter(function(x){return!x.rev});
+if(revCards.length>straightCards.length)return'Месяц потребует внутренней работы. '+revCards.length+' карт указывают на скрытые аспекты.';
+if(revCards.length<straightCards.length)return'Благоприятный месяц для внешней активности. '+straightCards.length+' карт обещают ясность.';
+return'Баланс сил. Месяц перемен — используйте обе стороны.';
 }
-return`${n-r} прямых и ${r} перевёрнутых карт — обратите внимание на обе стороны.`;
+return(n-r)+' прямых и '+r+' перевёрнутых карт — обратите внимание на обе стороны.';
 }
 
 function advice(s){
-const c=s.cards[0];
+var c=s.cards[0];
 if(s.type==='month'){
-const allRev=s.cards.every(x=>x.rev);
-const mostRev=s.cards.filter(x=>x.rev).length>s.cards.length/2;
+var allRev=s.cards.every(function(x){return x.rev});
+var mostRev=s.cards.filter(function(x){return x.rev}).length>s.cards.length/2;
 if(allRev||mostRev)return"Месяц благоприятен для размышлений и планирования.";
 return"Используйте энергию месяца для решительных действий.";
 }
@@ -194,9 +202,12 @@ if(c.id<=21)return c.rev?"Будьте осторожны с решениями.
 return c.rev?"Обратите внимание на детали.":"Действуйте уверенно.";
 }
 
-function SingleCard({c,F,fl}){
+function SingleCard(props){
+var c=props.c;
+var F=props.F;
+var fl=props.fl;
 return React.createElement('div',{className:'card-container-single'},
-React.createElement('div',{className:'card-single'+(F?' flipped':''),onClick:()=>!F&&fl()},
+React.createElement('div',{className:'card-single'+(F?' flipped':''),onClick:function(){if(!F)fl()}},
 React.createElement('div',{className:'card-front'},
 React.createElement('span',{className:'icon'},c.i),
 React.createElement('span',{className:'name'},c.n),
@@ -207,34 +218,32 @@ React.createElement('div',{className:'card-back'})
 );
 }
 
-function WeekCards({cards,F,fl}){
-const centerX=50;
-const centerY=50;
-const radius=42;
-const dayLabels=["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
-const startAngle=-90;
+function WeekCards(props){
+var cards=props.cards;
+var F=props.F;
+var fl=props.fl;
+var centerX=50;
+var centerY=50;
+var radius=38;
+var dayLabels=["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
+var startAngle=-90;
 
-return React.createElement('div',{className:'g w',style:{width:'100%',maxWidth:'300px',margin:'0 auto 16px'}},
-React.createElement('div',{className:'circle-center'},
-React.createElement('span',null,'📅'),
-React.createElement('span',null,'Неделя')
-),
-cards.map((c,i)=>{
-const angle=(startAngle+i*(360/7))*Math.PI/180;
-const x=centerX+radius*Math.cos(angle)-2.5;
-const y=centerY+radius*Math.sin(angle)-3.5;
-const rotation=angle*180/Math.PI+90;
+var elements=cards.map(function(c,i){
+var angle=(startAngle+i*(360/7))*Math.PI/180;
+var x=centerX+radius*Math.cos(angle)-2.5;
+var y=centerY+radius*Math.sin(angle)-3.5;
+var rotation=angle*180/Math.PI+90;
 return React.createElement('div',{
 key:i,
 className:'card-wrapper ca',
 style:{
-left:`${x}%`,
-top:`${y}%`,
-transform:`rotate(${rotation}deg)`,
-animationDelay:`${i*.1}s`,
+left:x+'%',
+top:y+'%',
+transform:'rotate('+rotation+'deg)',
+animationDelay:(i*.1)+'s',
 zIndex:i<4?i:7-i
 },
-onClick:()=>!F[i]&&fl(i)
+onClick:function(){if(!F[i])fl(i)}
 },
 React.createElement('span',{className:'pl'},dayLabels[(i+1)%7]),
 React.createElement('div',{className:'c'+(F[i]?' fl':'')},
@@ -243,41 +252,57 @@ React.createElement('span',{className:'name'},F[i]?c.n:'\u2022\u2022\u2022'),
 F[i]&&c.rev&&React.createElement('span',{className:'rev'},'▼')
 )
 );
-})
+});
+
+return React.createElement('div',{className:'g w',style:{width:'100%',maxWidth:'280px',margin:'0 auto 16px'}},
+React.createElement('div',{className:'circle-center'},
+React.createElement('span',null,'📅'),
+React.createElement('span',null,'Неделя')
+),
+elements
 );
 }
 
-function MonthCards({cards,F,fl}){
-return React.createElement('div',{className:'g m'},
-cards.map((c,i)=>
-React.createElement('div',{key:i,className:'ca',style:{animationDelay:`${i*.1}s`}},
+function MonthCards(props){
+var cards=props.cards;
+var F=props.F;
+var fl=props.fl;
+var elements=cards.map(function(c,i){
+return React.createElement('div',{key:i,className:'ca',style:{animationDelay:(i*.1)+'s'}},
 React.createElement('div',{className:'pl'},c.p),
-React.createElement('div',{className:'c'+(F[i]?' fl':''),onClick:()=>!F[i]&&fl(i)},
+React.createElement('div',{className:'c'+(F[i]?' fl':''),onClick:function(){if(!F[i])fl(i)}},
 React.createElement('span',{className:'icon'},F[i]?c.i:'\u2728'),
 React.createElement('span',{className:'name'},F[i]?c.n:'\u2022\u2022\u2022'),
 F[i]&&c.rev&&React.createElement('span',{className:'rev'},'▼')
 )
-)
-)
 );
+});
+return React.createElement('div',{className:'g m'},elements);
 }
 
-function Card({c,F,fl}){
-return React.createElement('div',{className:'c'+(F?' fl':''),onClick:()=>!F&&fl()},
-React.createElement('span',{className:'icon'},c.i),
-React.createElement('span',{className:'name'},c.n),
-F&&c.rev&&React.createElement('span',{className:'rev'},'▼')
-);
+function Modal(props){
+var n=_useState('');
+var g=_useState('');
+var b=_useState('');
+var setN=n[1];
+var setG=g[1];
+var setB=b[1];
+
+function cs(d){
+var m=d.getMonth()+1;
+var day=d.getDate();
+var s=[['capricorn',1,19],['aquarius',1,20],['pisces',2,18],['aries',3,20],['taurus',4,20],['gemini',5,20],['cancer',6,21],['leo',7,22],['virgo',8,22],['libra',9,22],['scorpio',10,22],['sagittarius',11,21],['capricorn',12,21]];
+for(var i=0;i<s.length;i++){
+if(m<s[i][1]||(m===s[i][1]&&day<=s[i][2]))return s[i][0];
+}
+return'capricorn';
 }
 
-function Modal({on}){
-const[n,setN]=useState('');
-const[g,setG]=useState('');
-const[b,setB]=useState('');
-const cs=(d)=>{const m=d.getMonth()+1,day=d.getDate();
-const s=[['capricorn',1,19],['aquarius',1,20],['pisces',2,18],['aries',3,20],['taurus',4,20],['gemini',5,20],['cancer',6,21],['leo',7,22],['virgo',8,22],['libra',9,22],['scorpio',10,22],['sagittarius',11,21],['capricorn',12,21]];
-for(const[x,m2,d2]of s)if(m<m2||(m===m2&&day<=d2))return x;return'capricorn'};
-const sub=()=>{if(!n||!g||!b)return;on({n,g,b,s:cs(new Date(b))})};
+function sub(){
+if(!n[0]||!g[0]||!b[0])return;
+props.on({n:n[0],g:g[0],b:b[0],s:cs(new Date(b[0]))});
+}
+
 return React.createElement('div',{className:'mo'},
 React.createElement('div',{className:'mc'},
 React.createElement('div',{className:'mh'},
@@ -287,18 +312,18 @@ React.createElement('p',null,'Расскажите немного о себе')
 ),
 React.createElement('div',{className:'fg'},
 React.createElement('label',null,'Ваше имя'),
-React.createElement('input',{type:'text',placeholder:'Как вас зовут?',value:n,onChange:e=>setN(e.target.value)})
+React.createElement('input',{type:'text',placeholder:'Как вас зовут?',value:n[0],onChange:function(e){setN(e.target.value)}})
 ),
 React.createElement('div',{className:'fg'},
 React.createElement('label',null,'Пол'),
 React.createElement('div',{className:'gt'},
-React.createElement('button',{className:'go'+(g==='male'?' active':''),onClick:()=>setG('male')},'♂ Мужчина'),
-React.createElement('button',{className:'go'+(g==='female'?' active':''),onClick:()=>setG('female')},'♀ Женщина')
+React.createElement('button',{className:'go'+(g[0]==='male'?' active':''),onClick:function(){setG('male')}},'♂ Мужчина'),
+React.createElement('button',{className:'go'+(g[0]==='female'?' active':''),onClick:function(){setG('female')}},'♀ Женщина')
 )
 ),
 React.createElement('div',{className:'fg'},
 React.createElement('label',null,'Дата рождения'),
-React.createElement('input',{type:'date',value:b,onChange:e=>setB(e.target.value)})
+React.createElement('input',{type:'date',value:b[0],onChange:function(e){setB(e.target.value)}})
 ),
 React.createElement('button',{className:'bp',onClick:sub},'Продолжить ✨')
 )
@@ -306,78 +331,93 @@ React.createElement('button',{className:'bp',onClick:sub},'Продолжить 
 }
 
 function App(){
-const[tg]=useState(window.Telegram?.WebApp);
-const[usr,setUsr]=useState(null);
-const[m,setM]=useState(true);
-const[th,setTh]=useState('dark');
-const[tab,setTab]=useState('day');
-const[f,setF]=useState({});
-const[sp,setSp]=useState(null);
+var tg=window.Telegram&&window.Telegram.WebApp;
+var usr=_useState(null);
+var setUsr=usr[1];
+var m=_useState(true);
+var setM=m[1];
+var th=_useState('dark');
+var setTh=th[1];
+var tab=_useState('day');
+var setTab=tab[1];
+var f=_useState({});
+var setF=f[1];
+var sp=_useState(null);
+var setSp=sp[1];
 
-useEffect(()=>{if(tg){tg.ready();tg.expand()}const s=localStorage.getItem('taro_u');if(s){setUsr(JSON.parse(s));setM(false)}},[]);
+_useEffect(function(){
+if(tg){tg.ready();tg.expand()}
+var s=localStorage.getItem('taro_u');
+if(s){setUsr(JSON.parse(s));setM(false)}
+},[]);
 
-const fa=useCallback(()=>{
-const nf={};sp.cards.forEach((_,i)=>nf[`${tab}-${i}`]=true);setF(nf);
+var fa=_useCallback(function(){
+var nf={};
+sp[0].cards.forEach(function(_,i){nf[tab[0]+'-'+i]=true});
+setF(nf);
 },[tab,sp]);
 
-const ns=useCallback(()=>{setSp(gen(tab));setF({})},[tab]);
+var ns=_useCallback(function(){setSp(gen(tab[0]));setF({})},[tab]);
 
-const tc=(t)=>{const n=new Date(),nn=t==='day'?new Date(n.getFullYear(),n.getMonth(),n.getDate()+1):t==='week'?new Date(n.getFullYear(),n.getMonth(),n.getDate()+(8-n.getDay())%7||7):new Date(n.getFullYear(),n.getMonth()+1,1);return nn-n};
+var tc=function(t){
+var n=new Date();
+var nn=t==='day'?new Date(n.getFullYear(),n.getMonth(),n.getDate()+1):t==='week'?new Date(n.getFullYear(),n.getMonth(),n.getDate()+(8-n.getDay())%7||7):new Date(n.getFullYear(),n.getMonth()+1,1);
+return nn-n;
+};
 
-const fl=useCallback((i)=>setF(p=>({...p,[`${tab}-${i}`]:true})),[tab]);
+var fl=_useCallback(function(i){setF(function(p){var n={};n[tab[0]+'-'+i]=true;return Object.assign({},p,n)})},[tab]);
 
-useEffect(()=>{setSp(gen(tab))},[tab]);
+_useEffect(function(){setSp(gen(tab[0]))},[tab]);
 
-const allF=sp?.cards.every((_,i)=>f[`${tab}-${i}`]);
-const e=allF?interp(sp):null;
-const a=allF?advice(sp):null;
+var allF=sp[0]&&sp[0].cards.every(function(_,i){return f[0][tab[0]+'-'+i]});
+var e=allF?interp(sp[0]):null;
+var a=allF?advice(sp[0]):null;
 
 function formatTime(ms){
-const h=Math.floor(ms/3600000);
-const min=Math.floor((ms%3600000)/60000);
-return`${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+var h=Math.floor(ms/3600000);
+var min=Math.floor((ms%3600000)/60000);
+return String(h).padStart(2,'0')+':'+String(min).padStart(2,'0');
 }
 
-if(m)return React.createElement(Modal,{on:d=>{localStorage.setItem('taro_u',JSON.stringify(d));setUsr(d);setM(false)}});
-
-const gridClass=tab==='day'?'s':tab==='week'?'w':'m';
+if(m[0])return React.createElement(Modal,{on:function(d){localStorage.setItem('taro_u',JSON.stringify(d));setUsr(d);setM(false)}});
 
 return React.createElement('div',null,
 React.createElement('div',{className:'h'},
 React.createElement('div',{className:'ts'},
-React.createElement('button',{className:'tb d'+(th==='dark'?' active':''),onClick:()=>{setTh('dark');document.body.style.background='#08081a'}}),
-React.createElement('button',{className:'tb l'+(th==='light'?' active':''),onClick:()=>{setTh('light');document.body.style.background='#f0f0f0'}})
+React.createElement('button',{className:'tb d'+(th[0]==='dark'?' active':''),onClick:function(){setTh('dark');document.body.style.background='#08081a'}}),
+React.createElement('button',{className:'tb l'+(th[0]==='light'?' active':''),onClick:function(){setTh('light');document.body.style.background='#f0f0f0'}})
 ),
 React.createElement('div',{className:'l'},'🌙'),
 React.createElement('h1',null,'Таро Мистик'),
-usr&&React.createElement('p',null,`Привет, ${usr.n}!`),
+usr[0]&&React.createElement('p',null,'Привет, '+usr[0].n+'!'),
 React.createElement('p',null,'Карты, которые знают ответ')
 ),
 React.createElement('div',{className:'tabs'},
-[{id:'day',i:'☀️',l:'День'},{id:'week',i:'📅',l:'Неделя'},{id:'month',i:'🌙',l:'Месяц'}].map(x=>
-React.createElement('button',{key:x.id,className:'tab'+(tab===x.id?' active':''),onClick:()=>setTab(x.id)},
+[{id:'day',i:'☀️',l:'День'},{id:'week',i:'📅',l:'Неделя'},{id:'month',i:'🌙',l:'Месяц'}].map(function(x){
+return React.createElement('button',{key:x.id,className:'tab'+(tab[0]===x.id?' active':''),onClick:function(){setTab(x.id)}},
 React.createElement('span',null,x.i),
 React.createElement('span',null,x.l)
-)
-)
+);
+})
 ),
 React.createElement('div',{className:'sa'},
 React.createElement('div',{className:'st'},
-React.createElement('h2',null,sp?.t),
+React.createElement('h2',null,sp[0]&&sp[0].t),
 React.createElement('p',null,allF?'Все открыты':'Нажмите на карту')
 ),
 React.createElement('div',{className:'tm'},
 React.createElement('span',null,'⏳ Обновится через: '),
-React.createElement('span',null,formatTime(tc(tab)))
+React.createElement('span',null,sp[0]?formatTime(tc(tab[0])):'--:--')
 ),
-tab==='day'&&sp&&React.createElement(SingleCard,{c:sp.cards[0],F:f[`${tab}-0`],fl:()=>fl(0)}),
-tab==='week'&&sp&&React.createElement(WeekCards,{cards:sp.cards,F:sp.cards.map((_,i)=>f[`${tab}-${i}`]),fl}),
-tab==='month'&&sp&&React.createElement(MonthCards,{cards:sp.cards,F:sp.cards.map((_,i)=>f[`${tab}-${i}`]),fl}),
+sp[0]&&tab[0]==='day'&&React.createElement(SingleCard,{c:sp[0].cards[0],F:f[0][tab[0]+'-0'],fl:function(){fl(0)}}),
+sp[0]&&tab[0]==='week'&&React.createElement(WeekCards,{cards:sp[0].cards,F:sp[0].cards.map(function(_,i){return f[0][tab[0]+'-'+i]}),fl:fl}),
+sp[0]&&tab[0]==='month'&&React.createElement(MonthCards,{cards:sp[0].cards,F:sp[0].cards.map(function(_,i){return f[0][tab[0]+'-'+i]}),fl:fl}),
 !allF&&React.createElement('button',{className:'btn',onClick:fa},'✨ Открыть все'),
 React.createElement('button',{className:'btn2',onClick:ns},'🔄 Новый расклад')
 ),
-allF&&React.createElement('div',{className:'rs'},
-sp.cards.map((c,i)=>React.createElement('div',{key:i,className:'rc'},
+allF&&sp[0]&&React.createElement('div',{className:'rs'},
+sp[0].cards.map(function(c,i){
+return React.createElement('div',{key:i,className:'rc'},
 React.createElement('h3',null,c.i,' ',c.p,c.rev?' (перевёрнутая)':''),
 React.createElement('div',{className:'cm'},
 React.createElement('span',{className:'e'},c.i),
@@ -386,7 +426,8 @@ React.createElement('h4',null,c.n),
 React.createElement('p',null,c.rev?c.r:c.m)
 )
 )
-)),
+);
+}),
 e&&React.createElement('div',{className:'sb'},
 React.createElement('h3',null,'🔮 Прогноз'),
 React.createElement('p',null,e)
@@ -401,6 +442,7 @@ React.createElement('div',{className:'ft'},'🌙 Таро Мистик — бе�
 }
 
 ReactDOM.createRoot(document.getElementById('app')).render(React.createElement(App));
+})();
 </script>
 </body>
 </html>
