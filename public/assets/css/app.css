@@ -1,5 +1,9 @@
 /* App Styles */
 
+html, body {
+  overflow-x: hidden;
+}
+
 .app-container {
   position: relative;
   z-index: 1;
