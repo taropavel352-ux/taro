@@ -34,7 +34,7 @@ app.route('/api/telegram', telegramRoutes);
 app.route('/api/broadcast', broadcastRoutes);
 
 // Статика
-app.get('*', serveStatic({ root: './public' }));
-app.get('*', serveStatic({ path: './public/index.html' }));
+app.get('*', serveStatic({ root: './public', manifest: {} as any }));
+app.get('*', serveStatic({ path: './public/index.html', manifest: {} as any }));
 
 export default app;

@@ -62,7 +62,7 @@ moonphaseRoutes.get('/influence', async (c) => {
 
   return c.json({
     ...moonData,
-    influence: influences[moonData.phase_key]
+    influence: influences[moonData.key]
   });
 });
 

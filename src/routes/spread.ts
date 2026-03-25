@@ -124,7 +124,7 @@ function generateCards(count: number, seed?: string, extraSeed?: string): any[] 
     } while (used.has(idx));
     
     used.add(idx);
-    const card = { ...allCards[idx] };
+    const card = { ...allCards[idx] } as any;
     card.reversed = rng() < 0.25;
     cards.push(card);
   }
